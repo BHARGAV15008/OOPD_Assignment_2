@@ -102,7 +102,7 @@ public:
 };
 
 class Registrar {
-    AdministrativeDepartment* adminDepartments[100]; // Max capacity of 100 departments
+    AdministrativeDepartment* adminDepartments[100];
     int departmentCount = 0;
 
 public:
