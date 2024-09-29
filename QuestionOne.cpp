@@ -1,132 +1,129 @@
 #include <iostream>
 #include <string>
-#include <vector>
-#include <unordered_map>
+
 using namespace std;
 
 class PersonInformation {
-    protected:
-        string name;
-        string emailId;
-        string roomNumber;
-        string positionName;
-        string telephoneNumber;
+protected:
+    string name;
+    string emailId;
+    string roomNumber;
+    string positionName;
+    string telephoneNumber;
 
-    public:
-        PersonInformation(string name, string telephoneNumber, string emailId, string roomNumber, string positionName) {
-            this->name = name;
-            this->emailId = emailId;
-            this->roomNumber = roomNumber;
-            this->positionName = positionName;
-            this->telephoneNumber = telephoneNumber;
-        }
+public:
+    PersonInformation(string name, string telephoneNumber, string emailId, string roomNumber, string positionName) {
+        this->name = name;
+        this->emailId = emailId;
+        this->roomNumber = roomNumber;
+        this->positionName = positionName;
+        this->telephoneNumber = telephoneNumber;
+    }
 
-        void getInformation(string department) {
-            cout << this->name << "  ( " << this->positionName << " )" << endl;
-            cout << "-----------------------------------------------------------" << endl;
-            cout << "   Department          : " << department << endl;
-            cout << "   Email Id            : " << this->emailId << endl;
-            cout << "   Telephone Number    : " << this->telephoneNumber << endl;
-            cout << "   Room Number         : " << this->roomNumber << endl;
-        }
+    void getInformation(string department) {
+        cout << this->name << "  ( " << this->positionName << " )" << endl;
+        cout << "-----------------------------------------------------------" << endl;
+        cout << "   Department          : " << department << endl;
+        cout << "   Email Id            : " << this->emailId << endl;
+        cout << "   Telephone Number    : " << this->telephoneNumber << endl;
+        cout << "   Room Number         : " << this->roomNumber << endl;
+    }
 
-        string getName() {
-            size_t spacePos = this->name.find(' ');
-            if (spacePos != string::npos) {
-                return this->name.substr(0, spacePos);
-            }
-            else {
-                return this->name;
-            }
-            // return this->name;
+    string getName() {
+        size_t spacePos = this->name.find(' ');
+        if (spacePos != string::npos) {
+            return this->name.substr(0, spacePos);
         }
+        return this->name;
+    }
 };
 
 class AdministrativeDepartment : public PersonInformation {
-    protected:
-        string departmentName;
+protected:
+    string departmentName;
 
-    public:
-        AdministrativeDepartment(string name, string telephoneNumber, string emailId, string roomNumber, string positionName)
+public:
+    AdministrativeDepartment(string name, string telephoneNumber, string emailId, string roomNumber, string positionName)
         : PersonInformation(name, telephoneNumber, emailId, roomNumber, positionName) {}
 
-        void printInformation() {
-            cout << endl;
-            getInformation(this->departmentName);
-            cout << endl;
-        }
+    void printInformation() {
+        cout << endl;
+        getInformation(this->departmentName);
+        cout << endl;
+    }
+
+    void setDepartmentName(const string& name) {
+        departmentName = name;
+    }
+
+    string getDepartmentName() const {
+        return departmentName;
+    }
 };
 
 class InnovationResearchAndDevelopment : public AdministrativeDepartment {
-    public:
-        InnovationResearchAndDevelopment(string name, string telephoneNumber, string emailId, string roomNumber, string positionName)
-            : AdministrativeDepartment(name, telephoneNumber, emailId, roomNumber, positionName) {
-            this->departmentName = "Innovation Research & Development";
-        }
+public:
+    InnovationResearchAndDevelopment(string name, string telephoneNumber, string emailId, string roomNumber, string positionName)
+        : AdministrativeDepartment(name, telephoneNumber, emailId, roomNumber, positionName) {
+        this->departmentName = "Innovation Research & Development";
+    }
 };
 
 class Academics : public AdministrativeDepartment {
-    public:
-        Academics(string name, string telephoneNumber, string emailId, string roomNumber, string positionName)
-            : AdministrativeDepartment(name, telephoneNumber, emailId, roomNumber, positionName) {
-            this->departmentName = "Academics";
-        }
+public:
+    Academics(string name, string telephoneNumber, string emailId, string roomNumber, string positionName)
+        : AdministrativeDepartment(name, telephoneNumber, emailId, roomNumber, positionName) {
+        this->departmentName = "Academics";
+    }
 };
 
 class StudentAffairs : public AdministrativeDepartment {
-    public:
-        StudentAffairs(string name, string telephoneNumber, string emailId, string roomNumber, string positionName)
-            : AdministrativeDepartment(name, telephoneNumber, emailId, roomNumber, positionName) {
-            this->departmentName = "Student Affairs";
-        }
+public:
+    StudentAffairs(string name, string telephoneNumber, string emailId, string roomNumber, string positionName)
+        : AdministrativeDepartment(name, telephoneNumber, emailId, roomNumber, positionName) {
+        this->departmentName = "Student Affairs";
+    }
 };
 
 class StoreAndPurchase : public AdministrativeDepartment {
-    public:
-        StoreAndPurchase(string name, string telephoneNumber, string emailId, string roomNumber, string positionName)
-            : AdministrativeDepartment(name, telephoneNumber, emailId, roomNumber, positionName) {
-            this->departmentName = "Store & Purchase";
-        }
+public:
+    StoreAndPurchase(string name, string telephoneNumber, string emailId, string roomNumber, string positionName)
+        : AdministrativeDepartment(name, telephoneNumber, emailId, roomNumber, positionName) {
+        this->departmentName = "Store & Purchase";
+    }
 };
 
 class Library : public AdministrativeDepartment {
-    public:
-        Library(string name, string telephoneNumber, string emailId, string roomNumber, string positionName)
-            : AdministrativeDepartment(name, telephoneNumber, emailId, roomNumber, positionName) {
-            this->departmentName = "Library";
-        }
+public:
+    Library(string name, string telephoneNumber, string emailId, string roomNumber, string positionName)
+        : AdministrativeDepartment(name, telephoneNumber, emailId, roomNumber, positionName) {
+        this->departmentName = "Library";
+    }
 };
 
 class Registrar {
-    vector<AdministrativeDepartment*> adminDepartments;
-    unordered_map<string, PersonInformation*> personMap;
+    AdministrativeDepartment* adminDepartments[100]; // Max capacity of 100 departments
+    int departmentCount = 0;
 
-    public:
-        void addDepartment(AdministrativeDepartment* dept) {
-            adminDepartments.push_back(dept);
-            personMap[dept->getName()] = dept;
+public:
+    void addDepartment(AdministrativeDepartment* dept) {
+        if (departmentCount < 100) {
+            adminDepartments[departmentCount++] = dept;
         }
+    }
 
-        void fetchInformation(string name) {
-            for (auto &dept : adminDepartments) {
-                if (dept->getName().find(name) != string::npos) {
-                    dept->printInformation();
-                    return;
-                }
+    void fetchInformation(string name) {
+        for (int i = 0; i < departmentCount; ++i) {
+            if (adminDepartments[i]->getName().find(name) != string::npos) {
+                adminDepartments[i]->printInformation();
+                return;
             }
-            cout << "Person not Exist in Any Administrative Departments!" << endl;
         }
-
-        // void fetchInformation(string name) {
-        //     if (personMap.find(name) != personMap.end()) {
-        //         personMap[name]->getInformation();
-        //     } else {
-        //         cout << "Person not Exist in Any Administrative Departments!" << endl;
-        //     }
-        // }
+        cout << "Person does not exist in any Administrative Departments!" << endl;
+    }
 };
 
-void assignDepartments(Registrar &registrar) {
+void assignDepartments(Registrar& registrar) {
     // Assign Departments
     // IDR Departments
     registrar.addDepartment(new InnovationResearchAndDevelopment("Vivek Ashok Bohara", "+91-11-26907446", "dird@iiitd.ac.in", "None", "Dean"));
@@ -161,19 +158,18 @@ void assignDepartments(Registrar &registrar) {
 
     // Library
     registrar.addDepartment(new Library("Rajendra Singh", "011 26907 510", "rajendra@iiitd.ac.in", "Library Block", "Library Officer"));
-    registrar.addDepartment(new Library("Parikshita Behera", "011 26907 503", "parikshita@iiitd.ac.in", "Library Block", "Junior Library Officer"));
+    registrar.addDepartment(new Library("Amit Kumar", "011 26907 511", "amit@iiitd.ac.in", "Library Block", "Assistant Library Officer"));
 }
 
 int main() {
     Registrar registrar;
-    // Call Assign Departments
     assignDepartments(registrar);
-
-    // Fetch information
-    string nameToSearch;
-    cout << "Enter the name of the person who is present in any department : ";
-    getline(cin, nameToSearch);
-    registrar.fetchInformation(nameToSearch);
+    
+    string name;
+    cout << "Enter the name of the person to fetch their information: ";
+    getline(cin, name);
+    
+    registrar.fetchInformation(name);
 
     return 0;
 }
