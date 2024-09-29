@@ -8,7 +8,16 @@ test:
 # #	Optimize File
 # 	g++ -O3 -o optimizeOne QuestionOne.o
 
-# Lets Run Question First Here
+# Lets Run Question Second Here
+# #	Compile File
+# 	g++ -c QuestionTwo.cpp
+# #	Debug File
+# 	g++ -g -o debugOne QuestionTwo.o
+# #	Optimize File
+# 	g++ -O3 -o optimizeOne QuestionTwo.o
+
+
+# Lets Run Question Three Here
 #	Compile File
 	g++ -c QuestionTwo.cpp
 #	Debug File
