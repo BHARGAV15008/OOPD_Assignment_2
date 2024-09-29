@@ -19,8 +19,8 @@ test:
 
 # Lets Run Question Three Here
 #	Compile File
-	g++ -c QuestionTwo.cpp
+	g++ -c QuestionThree.cpp
 #	Debug File
-	g++ -g -o debugOne QuestionTwo.o
+	g++ -g -o debugOne QuestionThree.o
 #	Optimize File
-	g++ -O3 -o optimizeOne QuestionTwo.o
+	g++ -O3 -o optimizeOne QuestionThree.o
