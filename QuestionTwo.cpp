@@ -1,8 +1,19 @@
 #include <iostream>
 #include <string>
+#include <cctype>
+#include <algorithm>
 #define MAX_DEPARTMENTS 100
 using namespace std;
 
+
+bool containsSubstring(const string& str, const string& substr) {
+    string str_lower = str;
+    string substr_lower = substr;
+    transform(str_lower.begin(), str_lower.end(), str_lower.begin(), ::tolower);
+    transform(substr_lower.begin(), substr_lower.end(), substr_lower.begin(), ::tolower);
+
+    return str_lower.find(substr_lower) != string::npos;
+}
 
 class PersonInformation {
 protected:
@@ -33,12 +44,7 @@ public:
     }
 
     string getName() {
-        size_t spacePos = this->name.find(' ');
-        if (spacePos != string::npos) {
-            return this->name.substr(0, spacePos);
-        } else {
-            return this->name;
-        }
+        return this->name;
     }
 };
 
@@ -118,7 +124,7 @@ public:
 
     void fetchInformation(string name) {
         for (int i = 0; i < count; i++) {
-            if (academics[i]->getName().find(name) != string::npos) {
+            if (containsSubstring(academics[i]->getName(), name)) {
                 academics[i]->printInformation();
                 return;
             }
@@ -159,6 +165,15 @@ void assignDepartments(Academics &academics) {
     academics.addDepartment(new HumanCenteredDesign("Kalpana Shankhwar", "011-26907496", "kalpana@iiitd.ac.in", "A-403 (R&D Block)", "Assistant Professor"));
 }
 
+bool checkAlpha(string name) {
+    for(char c : name) {
+        if(c != ' ' && !isalpha(c)) {
+            return false;
+        }
+    }
+    return true;
+}
+
 int main() {
     // Generate Departments and Assign their Head
     ComputationBiology cbH("G.P.S. Raghava", "011-26907444", "raghava@iiitd.ac.in", "A-302 (R&D Block)", "Head & Professor");
@@ -193,7 +208,11 @@ int main() {
     string nameToSearch;
     cout << "Enter the name of the person who is present in any department : ";
     getline(cin, nameToSearch);
-    academics.fetchInformation(nameToSearch);
+
+    if (!checkAlpha(nameToSearch))
+        cout << "Invalid Name..." << endl;
+    else
+        academics.fetchInformation(nameToSearch);
 
     return 0;
 }
