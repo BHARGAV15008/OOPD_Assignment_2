@@ -5,6 +5,15 @@
 
 using namespace std;
 
+bool containsSubstring(const string& str, const string& substr) {
+    string str_lower = str;
+    string substr_lower = substr;
+    transform(str_lower.begin(), str_lower.end(), str_lower.begin(), ::tolower);
+    transform(substr_lower.begin(), substr_lower.end(), substr_lower.begin(), ::tolower);
+
+    return str_lower.find(substr_lower) != string::npos;
+}
+
 class PersonInformation {
 protected:
     string name;
@@ -32,10 +41,6 @@ public:
     }
 
     string getName() {
-        size_t spacePos = this->name.find(' ');
-        if (spacePos != string::npos) {
-            return this->name.substr(0, spacePos);
-        }
         return this->name;
     }
 };
@@ -115,12 +120,12 @@ public:
     }
 
     void fetchInformation(string name) {
-        transform(name.begin(), name.end(), name.begin(), ::tolower);
+        cout << name << endl;
         for (int i = 0; i < departmentCount; ++i) {
-            string fName = adminDepartments[i]->getName();
-            transform(fName.begin(), fName.end(), fName.begin(), ::tolower);
-            if (fName.find(name) != string::npos || fName.find(name)) {
-                adminDepartments[i]->printInformation();
+            if (containsSubstring(adminDepartments[i]->getName(), name)) {
+                cout << adminDepartments[i]->getName() << endl;
+                adminDepartments[i]
+                    ->printInformation();
                 return;
             }
         }
@@ -157,7 +162,7 @@ void assignDepartments(Registrar& registrar) {
     registrar.addDepartment(new StudentAffairs("Sonal Garg", "011 26907 553", "sonal@iiitd.ac.in", "A-207-1 (Academic Block)", "Junior Administrative Officer"));
 
     // Store and Purchase Departments
-    registrar.addDepartment(new StoreAndPurchase("Sangam Kumar Yadav", "011 26907 400", "sangam@iiitd.ac.in", "A-106, Academic Block", "Junior Administrative Officer"));
+    registrar.addDepartment(new StoreAndPurchase("Sangam Kumar YadavAmit", "011 26907 400", "sangam@iiitd.ac.in", "A-106, Academic Block", "Junior Administrative Officer"));
     registrar.addDepartment(new StoreAndPurchase("Nidhi Yadav", "011 26907 597", "nidhi@iiitd.ac.in", "A-108 (Academic Block)", "Assistant Administrative Officer"));
     registrar.addDepartment(new StoreAndPurchase("Ajay Kumar", "011 26907 561", "ajay@iiitd.ac.in", "A-103(2) (Academic Block)", "Administrative Officer"));
 
@@ -166,9 +171,9 @@ void assignDepartments(Registrar& registrar) {
     registrar.addDepartment(new Library("Amit Kumar", "011 26907 511", "amit@iiitd.ac.in", "Library Block", "Assistant Library Officer"));
 }
 
-bool checkAlphaNumber(string name) {
+bool checkAlpha(string name) {
     for(char c : name) {
-        if(c != ' ' && !isalnum(c)) {
+        if(c != ' ' && !isalpha(c)) {
             return false;
         }
     }
@@ -183,7 +188,7 @@ int main() {
     cout << "Enter the name of the person to fetch their information: ";
     getline(cin, name);
 
-    if (checkAlphaNumber(name))
+    if (!checkAlpha(name))
         cout << "Invalid Name..." << endl;
     else
         registrar.fetchInformation(name);
