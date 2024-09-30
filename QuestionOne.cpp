@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <cctype>
+#include <algorithm>
 
 using namespace std;
 
@@ -113,8 +115,11 @@ public:
     }
 
     void fetchInformation(string name) {
+        transform(name.begin(), name.end(), name.begin(), ::tolower);
         for (int i = 0; i < departmentCount; ++i) {
-            if (adminDepartments[i]->getName().find(name) != string::npos) {
+            string fName = adminDepartments[i]->getName();
+            transform(fName.begin(), fName.end(), fName.begin(), ::tolower);
+            if (fName.find(name) != string::npos || fName.find(name)) {
                 adminDepartments[i]->printInformation();
                 return;
             }
@@ -161,6 +166,15 @@ void assignDepartments(Registrar& registrar) {
     registrar.addDepartment(new Library("Amit Kumar", "011 26907 511", "amit@iiitd.ac.in", "Library Block", "Assistant Library Officer"));
 }
 
+bool checkAlphaNumber(string name) {
+    for(char c : name) {
+        if(c != ' ' && !isalnum(c)) {
+            return false;
+        }
+    }
+    return true;
+}
+
 int main() {
     Registrar registrar;
     assignDepartments(registrar);
@@ -168,8 +182,11 @@ int main() {
     string name;
     cout << "Enter the name of the person to fetch their information: ";
     getline(cin, name);
-    
-    registrar.fetchInformation(name);
+
+    if (checkAlphaNumber(name))
+        cout << "Invalid Name..." << endl;
+    else
+        registrar.fetchInformation(name);
 
     return 0;
 }
